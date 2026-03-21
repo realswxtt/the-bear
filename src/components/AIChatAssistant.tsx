@@ -95,7 +95,7 @@ export default function AIChatAssistant() {
     };
 
     return (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
+        <div className="fixed bottom-32 md:bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
 
             {/* Ventana de Chat */}
             <AnimatePresence>
@@ -108,7 +108,7 @@ export default function AIChatAssistant() {
                         className="pointer-events-auto bg-white rounded-2xl shadow-2xl border border-slate-200 w-[380px] h-[500px] mb-4 flex flex-col overflow-hidden"
                     >
                         {/* Header */}
-                        <div className="bg-gradient-to-r from-thebear-blue to-thebear-dark-blue p-4 flex items-center justify-between text-white shrink-0">
+                        <div className="bg-linear-to-r from-thebear-blue to-thebear-dark-blue p-4 flex items-center justify-between text-white shrink-0">
                             <div className="flex items-center gap-3">
                                 <div className="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
                                     <Bot size={20} className="text-white" />
@@ -141,7 +141,7 @@ export default function AIChatAssistant() {
                                     {/* Avatar */}
                                     <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 shadow-sm
                                         ${msg.role === 'assistant'
-                                            ? 'bg-gradient-to-br from-thebear-light-blue to-thebear-blue text-thebear-dark-blue'
+                                            ? 'bg-linear-to-br from-thebear-light-blue to-thebear-blue text-thebear-dark-blue'
                                             : 'bg-slate-200 text-slate-600'
                                         }`}
                                     >
@@ -168,7 +168,7 @@ export default function AIChatAssistant() {
                             {/* Loading Indicator */}
                             {isLoading && (
                                 <div className="flex gap-3">
-                                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-thebear-light-blue to-thebear-blue text-thebear-dark-blue flex items-center justify-center shrink-0 shadow-sm">
+                                    <div className="w-8 h-8 rounded-full bg-linear-to-br from-thebear-light-blue to-thebear-blue text-thebear-dark-blue flex items-center justify-center shrink-0 shadow-sm">
                                         <Loader2 size={14} className="animate-spin" />
                                     </div>
                                     <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm">
@@ -225,7 +225,7 @@ export default function AIChatAssistant() {
                 className={`pointer-events-auto w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-colors z-50
                     ${isOpen
                         ? 'bg-slate-600 text-white'
-                        : 'bg-gradient-to-r from-thebear-blue to-thebear-dark-blue text-white hover:shadow-thebear-blue/25'
+                        : 'bg-linear-to-r from-thebear-blue to-thebear-dark-blue text-white hover:shadow-thebear-blue/25'
                     }`}
             >
                 {isOpen ? (

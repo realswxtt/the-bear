@@ -934,7 +934,7 @@ function POSContent() {
                                         setIsCobrando(true);
                                         setShowReceipt(true);
                                     }}
-                                    className="w-full py-5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-[2rem] shadow-xl shadow-emerald-900/40 flex items-center justify-center gap-3 transition-all active:scale-95 group overflow-hidden relative"
+                                    className="w-full py-5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-4xl shadow-xl shadow-emerald-900/40 flex items-center justify-center gap-3 transition-all active:scale-95 group overflow-hidden relative"
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                                     <CheckCircle size={20} className="relative z-10" />
@@ -946,21 +946,40 @@ function POSContent() {
                 </div>
             </div>
 
-            {/* Mobile Floating Cart Button */}
-            {view === 'pedido' && carrito.length > 0 && (
-                <motion.button
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    onClick={() => setIsCartOpen(true)}
-                    className="fixed bottom-6 right-6 lg:hidden w-16 h-16 bg-thebear-blue text-white rounded-full shadow-2xl flex items-center justify-center z-40 border-4 border-white pulse-glow"
-                >
-                    <div className="relative">
-                        <ShoppingCart size={24} />
-                        <span className="absolute -top-3 -right-3 bg-red-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">
-                            {carrito.length}
-                        </span>
-                    </div>
-                </motion.button>
+            {/* Mobile Bottom Summary Bar */}
+            {view === 'pedido' && (
+                <div className="fixed bottom-0 left-0 right-0 p-4 lg:hidden z-40 bg-linear-to-t from-white via-white to-transparent pointer-events-none">
+                    <AnimatePresence>
+                        {carrito.length > 0 && (
+                            <motion.div
+                                initial={{ y: 100, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                exit={{ y: 100, opacity: 0 }}
+                                className="pointer-events-auto max-w-lg mx-auto bg-thebear-dark-blue rounded-3xl p-4 shadow-2xl flex items-center justify-between border border-white/10"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-thebear-light-blue relative">
+                                        <ShoppingCart size={20} />
+                                        <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-thebear-dark-blue">
+                                            {carrito.length}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-black text-white/40 uppercase tracking-widest leading-none mb-1">Tu Pedido</p>
+                                        <p className="text-lg font-black text-white italic tracking-tighter leading-none">S/ {calcularTotal().toFixed(2)}</p>
+                                    </div>
+                                </div>
+
+                                <button
+                                    onClick={() => setIsCartOpen(true)}
+                                    className="px-6 py-3 bg-thebear-blue text-white rounded-2xl font-black uppercase text-[10px] tracking-widest shadow-lg shadow-thebear-blue/20 active:scale-95 transition-all"
+                                >
+                                    Ver Pedido
+                                </button>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
             )}
 
             {/* Modals & Receipts */}
