@@ -1,0 +1,621 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #F8FAFC;
+  --foreground: #1E293B;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* Paleta Corporativa THE BEAR - Cevichería */
+  --color-thebear-blue: #0077b6;
+  --color-thebear-light-blue: #90e0ef;
+  --color-thebear-dark-blue: #03045e;
+  --color-thebear-cream: #caf0f8;
+
+  /* Variantes de colores para hover/active */
+  --color-thebear-blue-dark: #023e8a;
+  --color-thebear-blue-light: #00b4d8;
+
+  /* Fuente principal */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: #E2E8F0;
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  position: relative;
+}
+
+/* Patrón de fondo sutil para que el glassmorphism sea visible */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(0, 119, 182, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(144, 224, 239, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(3, 4, 94, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================ */
+/* GRADIENTES DINÃMICOS MÃS INTENSOS */
+/* ============================================ */
+
+.gradient-blue {
+  background: linear-gradient(135deg, #00b4d8 0%, #023e8a 100%);
+  box-shadow: 0 8px 32px rgba(0, 119, 182, 0.3);
+}
+
+.gradient-light-blue {
+  background: linear-gradient(135deg, #ade8f4 0%, #90e0ef 100%);
+  box-shadow: 0 8px 32px rgba(144, 224, 239, 0.3);
+}
+
+.gradient-navy {
+  background: linear-gradient(135deg, #03045e 0%, #023e8a 100%);
+  box-shadow: 0 8px 32px rgba(3, 4, 94, 0.3);
+}
+
+.gradient-cream {
+  background: linear-gradient(135deg, #f0f8ff 0%, #caf0f8 100%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.gradient-green {
+  background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+  box-shadow: 0 8px 32px rgba(76, 175, 80, 0.3);
+}
+
+/* ============================================ */
+/* GLASSMORPHISM INTENSIFICADO */
+/* ============================================ */
+
+.glass {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.glass-blue {
+  background: linear-gradient(135deg,
+      rgba(0, 180, 216, 0.95) 0%,
+      rgba(2, 62, 138, 0.95) 100%);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border-right: 3px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    4px 0 40px rgba(0, 119, 182, 0.4),
+    inset -1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 2px solid rgba(3, 4, 94, 0.1);
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* ============================================ */
+/* EFECTOS 3D Y SOMBRAS MÃS DRAMÃTICOS */
+/* ============================================ */
+
+.shadow-3d {
+  box-shadow:
+    0 10px 30px -5px rgba(0, 0, 0, 0.15),
+    0 4px 10px -2px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-3d-hover {
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 15px 30px -10px rgba(0, 119, 182, 0.2),
+    0 0 0 1px rgba(144, 224, 239, 0.3);
+}
+
+.shadow-3d-deep {
+  box-shadow:
+    0 30px 60px -15px rgba(0, 0, 0, 0.3),
+    0 20px 40px -12px rgba(3, 4, 94, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================ */
+/* SKELETON LOADERS */
+/* ============================================ */
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg,
+      #ade8f4 0%,
+      #caf0f8 50%,
+      #ade8f4 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 8px;
+}
+
+.skeleton-text {
+  height: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-card {
+  height: 200px;
+  border-radius: 1.5rem;
+}
+
+.skeleton-metric {
+  height: 150px;
+  border-radius: 1rem;
+}
+
+/* ============================================ */
+/* ANIMACIONES PERSONALIZADAS */
+/* ============================================ */
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow:
+      0 0 30px rgba(144, 224, 239, 0.6),
+      0 0 60px rgba(144, 224, 239, 0.3),
+      0 10px 40px rgba(0, 119, 182, 0.3);
+  }
+
+  50% {
+    box-shadow:
+      0 0 50px rgba(144, 224, 239, 0.9),
+      0 0 100px rgba(144, 224, 239, 0.5),
+      0 15px 50px rgba(0, 119, 182, 0.4);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.shine-effect {
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 100%);
+  background-size: 200% 100%;
+  animation: shine 3s infinite;
+}
+
+/* ============================================ */
+/* NEW MARITIME UTILITIES FOR THE BEAR */
+/* ============================================ */
+
+.ocean-card {
+  @apply bg-white/95 backdrop-blur-xl border-2 border-thebear-cream/30 rounded-3xl p-6 shadow-2xl transition-all duration-300;
+  box-shadow:
+    0 10px 40px -10px rgba(0, 119, 182, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.ocean-card:hover {
+  @apply border-thebear-light-blue/50 -translate-y-1;
+  box-shadow: 0 20px 50px -15px rgba(0, 119, 182, 0.25);
+}
+
+.ocean-button-primary {
+  @apply bg-thebear-blue text-white font-black px-6 py-3 rounded-2xl shadow-lg hover:bg-thebear-blue-dark active:scale-95 transition-all flex items-center justify-center gap-2;
+}
+
+.ocean-button-secondary {
+  @apply bg-thebear-cream text-thebear-dark-blue font-bold px-6 py-3 rounded-2xl border-2 border-thebear-light-blue shadow-md hover:bg-thebear-light-blue active:scale-95 transition-all flex items-center justify-center gap-2;
+}
+
+.ocean-input {
+  @apply bg-white border-2 border-thebear-cream rounded-2xl px-5 py-4 focus:border-thebear-blue focus:ring-4 focus:ring-thebear-blue/10 outline-none transition-all text-thebear-dark-blue font-semibold placeholder:text-slate-400;
+}
+
+.ocean-badge {
+  @apply px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider shadow-sm;
+}
+
+.ocean-gradient-text {
+  @apply bg-gradient-to-br from-thebear-dark-blue to-thebear-blue bg-clip-text text-transparent;
+}
+
+/* ============================================ */
+/* UTILIDADES MODERNAS */
+/* ============================================ */
+
+.backdrop-blur-sm {
+  backdrop-filter: blur(8px) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
+}
+
+.backdrop-blur-md {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+}
+
+.backdrop-blur-lg {
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+}
+
+.transition-3d {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px) scale(1.03);
+}
+
+/* Efecto de borde brillante */
+.glow-border {
+  position: relative;
+}
+
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg,
+      rgba(144, 224, 239, 0.5),
+      rgba(0, 119, 182, 0.5),
+      rgba(144, 224, 239, 0.5));
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+  filter: blur(10px);
+}
+
+.glow-border:hover::before {
+  opacity: 1;
+}
+
+/* ============================================ */
+/* IMPRESIÓN TÃ‰RMICA — ADVANCE 80mm USB         */
+/* Papel: 80mm | Ãrea imprimible: ~72mm         */
+/* Resolución típica: 203 DPI                   */
+/* ============================================ */
+
+@media print {
+
+  /* ---- RESET GLOBAL ---- */
+  @page {
+    size: 80mm auto;
+    /* auto height to avoid fixed page length */
+    margin: 0mm !important;
+  }
+
+  html,
+  body {
+    width: 80mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body::before {
+    display: none !important;
+  }
+
+  /* Ocultar la aplicación principal y otros elementos, EXCEPTO el ticket */
+  #app-root,
+  body>*:not(.print-ticket) {
+    display: none !important;
+  }
+
+  /* Asegurar que el ticket sea visible y tenga prioridad */
+  .print-ticket {
+    display: block !important;
+    visibility: visible !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 99999 !important;
+    background: white !important;
+    width: 100% !important;
+  }
+
+  .print-ticket * {
+    visibility: visible !important;
+  }
+
+  /* ---- CONTENEDOR DEL TICKET (COMPACTO) ---- */
+  .print-ticket {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 72mm !important;
+    max-width: 72mm !important;
+    margin: 0 !important;
+    padding: 0mm 2mm 1mm 2mm !important;
+    /* Top 0mm, Bottom 1mm */
+    background: white !important;
+    color: #000 !important;
+
+    /* Arial es legible en tamaños pequeños */
+    font-family: Arial, Helvetica, 'Liberation Sans', sans-serif !important;
+    font-size: 9pt !important;
+    /* Reducido de 13pt */
+    line-height: 1.1 !important;
+    /* Reducido de 1.35 */
+    letter-spacing: -0.2px !important;
+  }
+
+  /* ---- FORZAR NEGRO ABSOLUTO EN TODO ---- */
+  .print-ticket,
+  .print-ticket p,
+  .print-ticket span,
+  .print-ticket div,
+  .print-ticket h1,
+  .print-ticket h2,
+  .print-ticket h3,
+  .print-ticket td,
+  .print-ticket th {
+    color: #000 !important;
+    background: transparent !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    border-color: #000 !important;
+  }
+
+  /* ---- ENCABEZADO DEL NEGOCIO ---- */
+  .print-ticket .ticket-header {
+    text-align: center !important;
+    padding-bottom: 0.5mm !important;
+    margin-bottom: 0.5mm !important;
+    border-bottom: 1px solid #000 !important;
+    /* Reducido grosor */
+  }
+
+  .print-ticket .ticket-header .negocio-nombre {
+    font-size: 12pt !important;
+    /* Reducido de 18pt */
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    margin: 0 0 1mm 0 !important;
+    letter-spacing: -0.5px !important;
+  }
+
+  .print-ticket .ticket-header .negocio-info {
+    font-size: 7pt !important;
+    /* Reducido de 9pt */
+    font-weight: 600 !important;
+    line-height: 1.1 !important;
+  }
+
+  .print-ticket .ticket-header .negocio-info p {
+    margin: 0 !important;
+  }
+
+  /* ---- NÃšMERO DE BOLETA ---- */
+  .print-ticket .ticket-boleta-num {
+    text-align: center !important;
+    padding: 1mm 0 !important;
+    margin: 0.5mm 0 !important;
+    border-bottom: 1px dashed #000 !important;
+  }
+
+  .print-ticket .ticket-boleta-num .boleta-titulo {
+    font-size: 8pt !important;
+    /* Reducido de 11pt */
+    font-weight: 700 !important;
+    letter-spacing: 0px !important;
+    margin-bottom: 0.5mm !important;
+  }
+
+  .print-ticket .ticket-boleta-num .boleta-numero {
+    font-size: 11pt !important;
+    /* Reducido de 16pt */
+    font-weight: 900 !important;
+  }
+
+  /* ---- FECHA / HORA / MESA ---- */
+  .print-ticket .ticket-meta {
+    font-size: 7pt !important;
+    /* Reducido de 10pt */
+    font-weight: 600 !important;
+    padding: 1mm 0 !important;
+  }
+
+  .print-ticket .ticket-meta-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-bottom: 0.5mm !important;
+  }
+
+  .print-ticket .ticket-mesa {
+    text-align: center !important;
+    font-size: 10pt !important;
+    /* Reducido de 14pt */
+    font-weight: 900 !important;
+    border: 1px solid #000 !important;
+    padding: 0.5mm 0 !important;
+    margin: 1mm 0 !important;
+  }
+
+  /* ---- DATOS DEL CLIENTE ---- */
+  .print-ticket .ticket-cliente {
+    font-size: 7pt !important;
+    /* Reducido de 10pt */
+    font-weight: 600 !important;
+    padding: 1mm 0 !important;
+    margin-bottom: 1mm !important;
+    border-bottom: 1px dashed #000 !important;
+  }
+
+  .print-ticket .ticket-cliente p {
+    margin: 0 !important;
+  }
+
+  /* ---- TABLA DE ITEMS ---- */
+  .print-ticket .ticket-items-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: 7pt !important;
+    /* Reducido explícitamente */
+    font-weight: 800 !important;
+    padding-bottom: 0.5mm !important;
+    margin-bottom: 1mm !important;
+    border-bottom: 1px solid #000 !important;
+    text-transform: uppercase !important;
+  }
+
+  .print-ticket .ticket-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    font-size: 8pt !important;
+    /* Reducido de 11pt */
+    line-height: 1.1 !important;
+    padding: 0.5mm 0 !important;
+    border-bottom: 0.5px dotted #000 !important;
+  }
+
+  .print-ticket .ticket-item:last-child {
+    border-bottom: none !important;
+  }
+
+  .print-ticket .ticket-item .item-cantidad {
+    font-weight: 900 !important;
+    min-width: 4mm !important;
+  }
+
+  .print-ticket .ticket-item .item-nombre {
+    flex: 1 !important;
+    padding: 0 1mm !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    word-break: break-word !important;
+  }
+
+  .print-ticket .ticket-item .item-precio {
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+    text-align: right !important;
+  }
+
+  /* ---- TOTAL ---- */
+  .print-ticket .ticket-total-box {
+    border-top: 2px solid #000 !important;
+    margin-top: 1mm !important;
+    padding-top: 1mm !important;
+  }
+
+  .print-ticket .ticket-total-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0.5mm 0 !important;
+  }
+
+  .print-ticket .ticket-total-label {
+    font-size: 9pt !important;
+    /* Reducido */
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+  }
+
+  .print-ticket .ticket-total-amount {
+    font-size: 12pt !important;
+    /* Reducido de 18pt */
+    font-weight: 900 !important;
+  }
+
+  /* ---- FOOTER ---- */
+  .print-ticket .ticket-footer {
+    text-align: center !important;
+    margin-top: 1mm !important;
+    padding-top: 0.5mm !important;
+    border-top: 1px solid #000 !important;
+  }
+
+  .print-ticket .ticket-footer .footer-mensaje {
+    font-size: 8pt !important;
+    /* Reducido */
+    font-weight: 600 !important;
+    font-style: italic !important;
+    margin-bottom: 1mm !important;
+  }
+
+  .print-ticket .ticket-footer .footer-slogan {
+    font-size: 8pt !important;
+    /* Reducido */
+    font-weight: 800 !important;
+    letter-spacing: 0.5px !important;
+    border: 1px solid #000 !important;
+    padding: 1mm 2mm !important;
+    display: inline-block !important;
+    margin-bottom: 1mm !important;
+  }
+
+  .print-ticket .ticket-footer .footer-sistema {
+    font-size: 5pt !important;
+    /* Muy pequeño */
+    font-weight: 400 !important;
+    color: #666 !important;
+    padding-bottom: 2mm !important;
+  }
+
+  /* ---- EVITAR CORTES ---- */
+  .print-ticket .ticket-item,
+  .print-ticket .ticket-total-box {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
