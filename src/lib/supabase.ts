@@ -1,13 +1,14 @@
 ﻿import { createClient } from '@supabase/supabase-js';
 
 // Validar que las variables de entorno estén configuradas
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder';
 
-if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error(
-        'Faltan las variables de entorno de Supabase. ' +
-        'Asegúrate de configurar NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY en .env.local'
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    console.warn(
+        '⚠️ Advertencia: Faltan las variables de entorno de Supabase. ' +
+        'Si estás en local, asegúrate de configurar .env.local. ' +
+        'Si estás en Vercel, agrégalas en el panel de configuración.'
     );
 }
 
