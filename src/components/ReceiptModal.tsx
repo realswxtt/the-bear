@@ -17,6 +17,7 @@ interface ReceiptModalProps {
     total: number;
     orderId?: string;
     mesaNumero?: number;
+    mesaId?: number; // Added to correctly release the table using its ID
     title?: string;
     isNewSale?: boolean; // Prop to control counter increment
     onPaymentSuccess?: () => void; // Callback after successful payment
@@ -35,7 +36,7 @@ interface ConfigNegocio {
     numero_ticket?: number;
 }
 
-export default function ReceiptModal({ isOpen, onClose, items, total, orderId, mesaNumero, title = 'BOLETA DE VENTA', isNewSale = false, onPaymentSuccess }: ReceiptModalProps) {
+export default function ReceiptModal({ isOpen, onClose, items, total, orderId, mesaNumero, mesaId, title = 'BOLETA DE VENTA', isNewSale = false, onPaymentSuccess }: ReceiptModalProps) {
     const [config, setConfig] = useState<ConfigNegocio>({
         ruc: '',
         razon_social: "THE BEAR",
@@ -526,7 +527,7 @@ export default function ReceiptModal({ isOpen, onClose, items, total, orderId, m
                                             }
                                             setIsFinalizing(true);
                                             try {
-                                                const res = await finalizarPagoVenta(orderId, metodoPago, mesaNumero ? mesaNumero : undefined);
+                                                const res = await finalizarPagoVenta(orderId, metodoPago, mesaId ? mesaId : undefined);
                                                 if (res.success) {
                                                     await handlePrint(); // Imprimir el ticket real
                                                     toast.success('¡Cobro registrado exitosamente!');

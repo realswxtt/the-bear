@@ -1,6 +1,11 @@
 const { createClient } = require('@supabase/supabase-js');
 const net = require('net');
-require('dotenv').config({ path: '.env.local' });
+try {
+    require('dotenv').config({ path: '.env.local' });
+} catch (e) {
+    // Si no está dotenv, asumimos que se pasó --env-file o las variables ya están
+    console.log('💡 Info: No se encontró "dotenv", usando variables de entorno nativas.');
+}
 
 // Configuración desde .env.local
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -65,24 +70,55 @@ const channel = supabase
     .on('postgres_changes', {
         event: 'INSERT',
         schema: 'public',
-        table: 'cola_impresion',
-        filter: 'estado=eq.pendiente'
+        table: 'cola_impresion'
     }, async (payload) => {
         const job = payload.new;
+        console.log(`🔔 Nuevo trabajo recibido: ${job.id} (Estado: ${job.estado})`);
+
+        if (job.estado !== 'pendiente') {
+            console.log(`⚠️ Ignorando trabajo ${job.id} porque no está pendiente.`);
+            return;
+        }
+
+        // Verificación atómica: Intentar marcar como 'impreso' primero.
+        // Si el update tiene éxito (row count > 0), significa que nadie más lo ha impreso.
+        const { data: lock, error: lockError } = await supabase
+            .from('cola_impresion')
+            .update({ estado: 'impreso' })
+            .eq('id', job.id)
+            .eq('estado', 'pendiente')
+            .select();
+
+        if (lockError || !lock || lock.length === 0) {
+            console.log(`⏩ Trabajo ${job.id} ya fue procesado por otra instancia.`);
+            return;
+        }
+
         try {
             await imprimir(job);
-            await supabase
-                .from('cola_impresion')
-                .update({ estado: 'impreso' })
-                .eq('id', job.id);
         } catch (error) {
+            console.error(`❌ Fallo crítico imprimiendo trabajo ${job.id}:`, error.message);
             await supabase
                 .from('cola_impresion')
                 .update({ estado: 'error' })
                 .eq('id', job.id);
         }
     })
-    .subscribe();
+    .subscribe((status) => {
+        console.log(`📡 Estado de la conexión Realtime: ${status}`);
+        if (status === 'SUBSCRIBED') {
+            console.log('✅ Suscrito con éxito a la tabla cola_impresion.');
+        } else if (status === 'CHANNEL_ERROR') {
+            console.error('❌ Error de canal: Asegúrate de que el Realtime esté habilitado para cola_impresion en Supabase.');
+        }
+    });
+
+// Periodic Heartbeat
+setInterval(() => {
+    if (channel.state === 'joined') {
+        // console.log('💓 Puente activo y conectado...');
+    }
+}, 30000);
 
 // Procesar pendientes al iniciar
 async function procesarPendientes() {
@@ -96,11 +132,20 @@ async function procesarPendientes() {
     if (pendientes && pendientes.length > 0) {
         console.log(`📝 Encontrados ${pendientes.length} trabajos pendientes.`);
         for (const job of pendientes) {
-            try {
-                await imprimir(job);
-                await supabase.from('cola_impresion').update({ estado: 'impreso' }).eq('id', job.id);
-            } catch (err) {
-                await supabase.from('cola_impresion').update({ estado: 'error' }).eq('id', job.id);
+            // Re-verificar estado atómicamente antes de imprimir
+            const { data: lock } = await supabase
+                .from('cola_impresion')
+                .update({ estado: 'impreso' })
+                .eq('id', job.id)
+                .eq('estado', 'pendiente')
+                .select();
+
+            if (lock && lock.length > 0) {
+                try {
+                    await imprimir(job);
+                } catch (err) {
+                    await supabase.from('cola_impresion').update({ estado: 'error' }).eq('id', job.id);
+                }
             }
         }
     }

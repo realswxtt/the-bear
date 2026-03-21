@@ -134,6 +134,10 @@ CREATE TABLE IF NOT EXISTS public.cola_impresion (
     created_at TIMESTAMPTZ DEFAULT now()
 );
 
--- Habilitar tiempo real para la cola
+-- Habilitar tiempo real y permisos para la cola
 ALTER TABLE public.cola_impresion ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Permitir todo en cola" ON public.cola_impresion;
 CREATE POLICY "Permitir todo en cola" ON public.cola_impresion FOR ALL USING (true);
+
+-- Otorgar permisos a los roles de Supabase
+GRANT ALL ON TABLE public.cola_impresion TO anon, authenticated, service_role;

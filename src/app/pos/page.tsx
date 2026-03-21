@@ -1003,6 +1003,7 @@ function POSContent() {
                         total={lastSaleTotal}
                         orderId={currentVentaId || undefined}
                         mesaNumero={selectedTable ? selectedTable.numero : undefined}
+                        mesaId={selectedTable ? (selectedTable as any).id || (selectedTable as any).mesa_id : undefined}
                         isNewSale={isCobrando}
                         onPaymentSuccess={() => {
                             toast.success('Venta finalizada con éxito');
