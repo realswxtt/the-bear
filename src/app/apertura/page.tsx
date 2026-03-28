@@ -238,6 +238,9 @@ function AperturaContent() {
 
                 if (updateError) throw updateError;
 
+                // RESET MESAS (Opcional en actualización, pero por seguridad lo hacemos)
+                await supabase.from('mesas').update({ estado: 'libre' }).not('id', 'is', null);
+
                 toast.success(
                     `¡Apertura ACTUALIZADA!\nDatos corregidos para el día de hoy.`,
                     { duration: 4000, icon: '🔄' }
@@ -273,6 +276,9 @@ function AperturaContent() {
                 .single();
 
             if (error) throw error;
+
+            // RESET MESAS - Todas a libre al iniciar el día
+            await supabase.from('mesas').update({ estado: 'libre' }).not('id', 'is', null);
 
             toast.success(
                 `¡Día iniciado exitosamente!\nChicha: ${chicha}L | Bebidas: ${totalBebidas}`,

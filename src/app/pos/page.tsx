@@ -71,6 +71,9 @@ function POSContent() {
     // Charging state
     const [isCobrando, setIsCobrando] = useState(false);
 
+    // Estado para mesas ocupadas sin pedido (fantasmas)
+    const [isEmptyOccupied, setIsEmptyOccupied] = useState(false);
+
     useEffect(() => {
         cargarProductos();
 
@@ -201,6 +204,7 @@ function POSContent() {
                     .select('*')
                     .eq('mesa_id', mesa.id)
                     .eq('estado_pago', 'pendiente')
+                    .eq('fecha', obtenerFechaHoy()) // FILTRAR POR HOY
                     .order('created_at', { ascending: false })
                     .limit(1)
                     .single();
@@ -222,14 +226,17 @@ function POSContent() {
 
                     setCarrito(itemsPrevios);
                     setOrderNotes(data.notes || '');
+                    setIsEmptyOccupied(false);
                     toast.success(`Cargando pedido actual de Mesa ${mesa.numero}`);
                 } else {
                     setCurrentVentaId(null);
                     setCarrito([]);
+                    setIsEmptyOccupied(true);
                 }
             } catch (err) {
                 console.error('Error al cargar venta de mesa ocupada:', err);
                 setCarrito([]);
+                setIsEmptyOccupied(true);
             } finally {
                 setLoading(false);
             }
@@ -238,6 +245,7 @@ function POSContent() {
             setCurrentVentaId(null);
             setCarrito([]);
             setOrderNotes('');
+            setIsEmptyOccupied(false);
         }
 
         setView('pedido');
@@ -939,6 +947,28 @@ function POSContent() {
                                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                                     <CheckCircle size={20} className="relative z-10" />
                                     <span className="text-sm font-black uppercase tracking-[0.3em] relative z-10">Cobrar S/ {calcularTotal().toFixed(2)}</span>
+                                </button>
+                            )}
+
+                            {/* Botón para liberar mesa fantasma */}
+                            {isEmptyOccupied && !currentVentaId && (
+                                <button
+                                    onClick={async () => {
+                                        if (selectedTable) {
+                                            const success = await liberarMesa(selectedTable.id);
+                                            if (success) {
+                                                toast.success('Mesa liberada manualmente');
+                                                setView('mesas');
+                                                refetchMesas();
+                                            } else {
+                                                toast.error('Error al liberar mesa');
+                                            }
+                                        }
+                                    }}
+                                    className="w-full py-5 bg-red-100 hover:bg-red-200 text-red-600 rounded-4xl border-2 border-red-200 flex items-center justify-center gap-3 transition-all active:scale-95 group relative mb-2"
+                                >
+                                    <Trash2 size={20} className="relative z-10" />
+                                    <span className="text-sm font-black uppercase tracking-[0.2em] relative z-10">Liberar Mesa (Sin Pedido)</span>
                                 </button>
                             )}
                         </div>
