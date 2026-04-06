@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase, obtenerFechaHoy } from '@/lib/supabase';
 import type { Venta, Mesa, ItemCarrito, ItemVenta } from '@/lib/database.types';
 import { Users, DollarSign, Clock, ShoppingBag, Trash2, AlertTriangle, Printer } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
@@ -91,6 +91,7 @@ function MesasActivasContent() {
                     )
                 `)
                 .eq('estado_pago', 'pendiente')
+                .eq('fecha', obtenerFechaHoy())
                 .order('created_at', { ascending: false });
 
             if (ventasError) throw ventasError;

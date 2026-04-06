@@ -1,5 +1,5 @@
 ﻿import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase, obtenerFechaHoy } from '@/lib/supabase';
 import type { Mesa } from '@/lib/database.types';
 
 export function useMesas() {
@@ -79,7 +79,8 @@ export function useMesas() {
                 .from('ventas')
                 .update({ mesa_id: mesaDestinoId })
                 .eq('mesa_id', mesaOrigenId)
-                .eq('estado_pago', 'pendiente');
+                .eq('estado_pago', 'pendiente')
+                .eq('fecha', obtenerFechaHoy());
 
             if (ventaError) throw ventaError;
 

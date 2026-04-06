@@ -334,12 +334,27 @@ export const finalizarPagoVenta = async (
 
         if (errorVenta) throw errorVenta;
 
-        // 2. Liberar mesa si existe
-        if (mesaId) {
+        // 2. Liberar mesa
+        let effectiveMesaId = mesaId;
+
+        // Si no se proporcionó mesaId, intentar recuperarlo de la venta
+        if (!effectiveMesaId) {
+            const { data: venta } = await supabase
+                .from('ventas')
+                .select('mesa_id')
+                .eq('id', ventaId)
+                .single();
+
+            if (venta?.mesa_id) {
+                effectiveMesaId = venta.mesa_id;
+            }
+        }
+
+        if (effectiveMesaId) {
             const { error: errorMesa } = await supabase
                 .from('mesas')
                 .update({ estado: 'libre' })
-                .eq('id', mesaId);
+                .eq('id', effectiveMesaId);
 
             if (errorMesa) throw errorMesa;
         }
