@@ -53,7 +53,7 @@ function POSContent() {
     // Table management
     const [selectedTable, setSelectedTable] = useState<Mesa | null>(null);
     const [isParaLlevar, setIsParaLlevar] = useState(false);
-    const { mesas, loading: loadingMesas, ocuparMesa, cambiarMesa, refetch: refetchMesas } = useMesas();
+    const { mesas, loading: loadingMesas, ocuparMesa, liberarMesa, cambiarMesa, refetch: refetchMesas } = useMesas();
     const [currentVentaId, setCurrentVentaId] = useState<string | null>(null);
     const [showCambiarMesaModal, setShowCambiarMesaModal] = useState(false);
 
