@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { ShoppingCart, Plus, Minus, Trash2, Check, Loader2, Search, Star, TrendingUp, RefreshCw, X, Printer, ArrowLeft, ArrowRight, LayoutGrid, Coffee, Waves, ChefHat, CheckCircle } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { supabase, obtenerFechaHoy } from '@/lib/supabase';
 import { registrarVenta, actualizarVenta } from '@/lib/ventas';
 import { useInventario } from '@/hooks/useInventario';
 import { useMesas } from '@/hooks/useMesas';
