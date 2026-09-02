@@ -1,4 +1,4 @@
-# 🐔 Pocholo's POS
+# 🐔 THEBEAR's POS
 
 Sistema de punto de venta para pollerías. PWA moderna con gestión de inventario, ventas y reportes.
 
